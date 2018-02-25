@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Frame name="SD">
+		<Scripts>
+			<OnLoad>
+				self:RegisterEvent("CHAT_MSG_ADDON");
+				self:RegisterEvent("PLAYER_ENTERING_WORLD");
+				self:RegisterEvent("ADDON_LOADED");
+				self:RegisterEvent("PARTY_MEMBERS_CHANGED");
+			</OnLoad>
+			<OnEvent>
+				--SD_print("SD_onEvent()");
+				SD_onEvent(event, ...);
+			</OnEvent>
+		</Scripts>
+    </Frame>
+</Ui>

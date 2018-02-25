@@ -1,0 +1,20 @@
+## Title: SoundDelivery
+## Version: 0.1.0
+## Notes: Addon to play back sound quotes in game.
+## Notes-deDE: Addon zum abspielen lustiger Soundzitate.
+## Interface: 70300
+## Author: WQ1 - Lev@Die Ewige Wacht, Harag@Die Ewige Wacht, WQ2 - Mukura@Der Rat von Dalaran, Salandril/Barakaitos@Garrosh, SD - Selensija@Eredar
+## SavedVariables: SoundDelivery_SETTINGS
+
+Media.lua
+
+SoundDelivery.lua
+SoundDelivery.xml
+Localization.de.lua
+Localization.en.lua
+
+LocalizationUI.de.lua
+LocalizationUI.en.lua
+SoundDeliveryUI.lua
+SoundDeliveryUI.xml
+

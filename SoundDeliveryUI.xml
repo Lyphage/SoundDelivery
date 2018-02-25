@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+	<Button name="SoundDeliveryItemTemplate" virtual="true">
+		<Size><AbsDimension x="397" y="16"/></Size>
+
+		<Scripts>
+			<OnClick></OnClick>
+			<OnDoubleClick>
+				self:GetParent().Quote(self.id);
+			</OnDoubleClick>
+		</Scripts>
+
+		<Frames>
+			<Frame name="$parentLabels" movable="true" setAllPoints="true">
+				<Layers>
+					<Layer>
+						<FontString name="$parentText" inherits="GameFontNormal" justifyH="LEFT">
+							<Size><AbsDimension x="215" y="0"/></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset><AbsDimension x="0" y="0"/></Offset>
+								</Anchor>
+								<Anchor point="BOTTOM"/>
+							</Anchors>
+						</FontString>
+						<FontString name="$parentID" inherits="GameFontHighlightSmall" justifyH="LEFT">
+							<Size><AbsDimension x="57" y="0"/></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentText">
+
+									<Offset>
+										<AbsDimension x="17" y="0"/>
+									</Offset>
+								</Anchor>
+								<Anchor point="BOTTOM"/>
+							</Anchors>
+						</FontString>
+						<FontString name="$parentDuration" inherits="GameFontHighlightSmall" justifyH="LEFT">
+							<Size><AbsDimension x="50" y="0"/></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentID">
+									<Offset>
+										<AbsDimension x="18" y="0"/>
+									</Offset>
+								</Anchor>
+								<Anchor point="BOTTOM"/>
+							</Anchors>
+						</FontString>
+						<FontString name="$parenttag" inherits="GameFontHighlightSmall" justifyH="LEFT">
+							<Size><AbsDimension x="55" y="0"/></Size>
+							<Anchors>
+								<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentDuration"/>
+								<Anchor point="BOTTOM"/>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+			</Frame>
+		</Frames>
+
+		<NormalFont inherits="GameFontNormal" justifyH="LEFT"/>
+		<HighlightFont inherits="GameFontHighlight" justifyH="LEFT"/>
+		<DisabledFont inherits="GameFontDisabled" justifyH="LEFT"/>
+		<NormalTexture hidden="true"/>
+		<DisabledTexture hidden="true"/>
+		<HighlightTexture hidden="true" file="Interface\Calendar\Highlights" alphaMode="ADD" virtual="true">
+			<TexCoords left="0.5" right="0.58" top="0" bottom="1"/>
+		</HighlightTexture>
+	</Button>
+
+	<Frame name="SD_QuickButtonFrame" toplevel="true" movable="true" parent="UIParent" enableMouse="true" hidden="false">
+		<Size x="50" y="50"/>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+
+			</Layer>
+		</Layers>
+
+		<Scripts>
+			<OnLoad>
+				for FunctionName, Function in pairs(WQUIB) do
+					self[FunctionName] = Function
+				end
+				WQUIB = self
+				self:Initialize()
+			</OnLoad>
+
+		</Scripts>
+
+		<Frames>
+			<Button name="SD_QuickButton"  hidden="false">
+				<Size>
+					<AbsDimension x="50" y="50"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="SD_QuickButton_Icon" file="Interface\Icons\Ability_Hunter_Harass">
+							<Size>
+								<AbsDimension x="50" y="50"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset>
+										<AbsDimension x="0" y="0"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<HighlightTexture hidden="true" file="Interface\Calendar\Highlights" alphaMode="ADD" virtual="true">
+					<TexCoords left="0.5" right="0.58" top="0.2" bottom="0.2434"/>
+				</HighlightTexture>
+				<Scripts>
+
+					<OnClick>
+						SD_showUI();
+					</OnClick>
+					<OnLoad>
+						this:RegisterForClicks("LeftButtonUp","RightButtonUp")
+					</OnLoad>
+					<OnMouseDown>
+						if button == "RightButton" and not self.isMoving then
+						self:GetParent():StartMoving();
+						self:GetParent().isMoving = true;
+
+						end
+					</OnMouseDown>
+					<OnMouseUp>
+						if button == "RightButton" and self:GetParent().isMoving then
+						self:GetParent():StopMovingOrSizing();
+						self:GetParent().isMoving = false;
+						end
+					</OnMouseUp>
+					<OnHide>
+						if ( this.isMoving ) then
+						this:GetParent():StopMovingOrSizing();
+						this:GetParent().isMoving = false;
+						end
+					</OnHide>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Frame>
+
+
+
+
+	<Frame name="SoundDeliveryDialog" toplevel="true" movable="true" parent="UIParent" enableMouse="true" hidden="true"> <!-- hidden="true"-->
+		<Scripts>
+			<OnMouseDown>
+				if button == "LeftButton" and not self.isMoving then
+				self:StartMoving();
+				self.isMoving = true;
+				end
+			</OnMouseDown>
+			<OnMouseUp>
+				if button == "LeftButton" and self.isMoving then
+				self:StopMovingOrSizing();
+				self.isMoving = false;
+
+				end
+			</OnMouseUp>
+			<OnHide>
+				if ( this.isMoving ) then
+				this:StopMovingOrSizing();
+				this.isMoving = false;
+				end
+			</OnHide>
+		</Scripts>
+
+		<Size><AbsDimension x="455" y="512" /></Size>
+		<Anchors>
+			<Anchor point="LEFT">
+				<Offset>
+					<AbsDimension x="-100" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<TitleRegion>
+			<Size>
+				<AbsDimension x="400" y="100" />
+			</Size>
+			<Anchors>
+				<Anchor point="TOP" />
+			</Anchors>
+		</TitleRegion>
+
+		<Layers>
+			<Layer level="OVERLAY">
+				<Texture file="Interface\BlackMarket\BlackMarketSign">
+					<Size><AbsDimension x="455" y="90"/></Size>
+					<Anchors>
+						<Anchor point="TopLeft">
+							<Offset><AbsDimension x="0" y="0"/></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+
+
+			<Layer level="BORDER">
+				<Texture file="Interface\HELPFRAME\HelpFrame-TopLeft">
+					<Size><AbsDimension x="136" y="256"/></Size>
+					<Anchors><Anchor point="TOPLEFT"/></Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture file="Interface\HELPFRAME\HelpFrame-TopRight">
+					<Size><AbsDimension x="136" y="256"/></Size>
+					<Anchors>
+						<Anchor point="TopLeft">
+							<Offset><AbsDimension x="364" y="0"/></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture file="Interface\HELPFRAME\HelpFrame-BotLeftBig">
+					<Size><AbsDimension x="136" y="256"/></Size>
+					<Anchors><Anchor point="BOTTOMLEFT"/></Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="BORDER">
+				<Texture file="Interface\HELPFRAME\HelpFrame-BotRightBig">
+					<Size><AbsDimension x="136" y="256"/></Size>
+					<Anchors>
+						<Anchor point="BottomLeft">
+							<Offset><AbsDimension x="364" y="0"/></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<!-- BOT + TOP -->
+			<Layer name="$bottomLayer" level="BORDER">
+				<Texture file="Interface\HELPFRAME\HelpFrame-BottomBig">
+					<Size><AbsDimension x="228" y="256"/></Size>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT">
+							<Offset><AbsDimension x="136" y="0"/></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="BORDER">
+				<Texture file="Interface\HELPFRAME\HelpFrame-Top">
+					<Size><AbsDimension x="228" y="256"/></Size>
+					<Anchors>
+						<Anchor point="TopLeft">
+							<Offset><AbsDimension x="136" y="0"/></Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+
+			<Layer level="OVERLAY">
+				<FontString name="$parentTitle" text="SoundDelivery" font="Fonts\skurri.ttf">
+					<Color r="1" g="1" b="1" a="0.9"/>
+					<FontHeight val="24"/>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset><AbsDimension x="0" y="-20"/></Offset> <!-- y="-16" -->
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+
+		<Frames>
+			<Button inherits="UIPanelCloseButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset><AbsDimension x="-1" y="-4"/></Offset> <!-- <AbsDimension x="-42" y="-3"/> -->
+					</Anchor>
+				</Anchors>
+			</Button>
+
+			<EditBox name="$parentEditBox" autoFocus="false">
+				<Size>
+					<AbsDimension x="96" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="SoundDeliveryDialog" relativePoint="TOPLEFT">
+						<Offset x="23" y="-64"/>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture name="$parentLeft" file="Interface\Common\Common-Input-Border">
+							<Size>
+								<AbsDimension x="8" y="20"/>
+							</Size>
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset x="-5" y="0"/>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.0625" top="0" bottom="0.625"/>
+						</Texture>
+						<Texture name="$parentRight" file="Interface\Common\Common-Input-Border">
+							<Size>
+								<AbsDimension x="8" y="20"/>
+							</Size>
+							<Anchors>
+								<Anchor point="RIGHT">
+									<Offset x="0" y="0"/>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.9375" right="1.0" top="0" bottom="0.625"/>
+						</Texture>
+						<Texture name="$parentMiddle" file="Interface\Common\Common-Input-Border">
+							<Size>
+								<AbsDimension x="0" y="20"/>
+							</Size>
+							<Anchors>
+								<Anchor point="LEFT" relativeTo="$parentLeft" relativePoint="RIGHT"/>
+								<Anchor point="RIGHT" relativeTo="$parentRight" relativePoint="LEFT"/>
+							</Anchors>
+							<TexCoords left="0.0625" right="0.9375" top="0" bottom="0.625"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						self:GetParent().EditBox = self;
+					</OnLoad>
+					<OnShow>
+						self:SetText(SoundDeliveryUI_Localization.SEARCH);
+					</OnShow>
+					<OnEnterPressed>
+						self:ClearFocus();
+					</OnEnterPressed>
+					<OnEscapePressed>
+						self:ClearFocus();
+					</OnEscapePressed>
+					<OnTextChanged>
+						self:GetParent():OnSearch();
+					</OnTextChanged>
+					<OnEditFocusLost>
+						self:HighlightText(0, 0);
+						if ( self:GetText() == "" ) then
+						self:SetText(SoundDeliveryUI_Localization.SEARCH);
+						end
+					</OnEditFocusLost>
+					<OnEditFocusGained>
+						self:HighlightText();
+						if ( self:GetText() == SoundDeliveryUI_Localization.SEARCH ) then
+						self:SetText("");
+						end
+					</OnEditFocusGained>
+				</Scripts>
+				<FontString inherits="ChatFontSmall"/>
+			</EditBox>
+
+			<CheckButton name="$parentCheckButtonGuild" inherits="UICheckButtonTemplate">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentEditBox" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="5" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						SoundDeliveryDialogCheckButtonGuildText:SetText(SoundDeliveryUI_Localization.CHECKBUTTON_GUILD);
+						self:GetParent().CheckButtons = {};
+						self:GetParent().CheckButtons.Guild = self;
+					</OnLoad>
+					<OnEnter> WQUI_CheckBox_Tooltip_OnEnter(self,"TOOLTIP_GUILD") </OnEnter>
+    			<OnLeave> WQUI_ToolTip_OnLeave() </OnLeave>
+					<OnClick>
+						if self:GetChecked() then
+						SD_SETTINGS.broadcast.GUILD = true;
+						else
+						SD_SETTINGS.broadcast.GUILD = false;
+						end
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+
+			<CheckButton name="$parentCheckButtonParty" inherits="UICheckButtonTemplate">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCheckButtonGuild" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="45" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						SoundDeliveryDialogCheckButtonPartyText:SetText(SoundDeliveryUI_Localization.CHECKBUTTON_PARTY);
+						self:GetParent().CheckButtons.Party = self;
+					</OnLoad>
+					<OnEnter> WQUI_CheckBox_Tooltip_OnEnter(self,"TOOLTIP_PARTY") </OnEnter>
+    			<OnLeave> WQUI_ToolTip_OnLeave() </OnLeave>
+					<OnClick>
+						if self:GetChecked() then
+						SD_SETTINGS.broadcast.PARTY = true;
+						else
+						SD_SETTINGS.broadcast.PARTY = false;
+						end
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+
+			<Button name="StopButton" inherits="UIPanelButtonTemplate" text="stopButton">
+				<Size>
+					<AbsDimension x="140" y="30"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="-40" y="28"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						self:SetText(SoundDeliveryUI_Localization.BUTTON_STOPBUTTON);
+					</OnLoad>
+					<OnEnter> WQUI_Universal_Tooltip_OnEnter(self,"TOOLTIP_STOPBUTTON") </OnEnter>
+    			<OnLeave> WQUI_ToolTip_OnLeave() </OnLeave>
+					<OnClick>
+						SD_stop();
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<CheckButton name="$parentCheckButtonRaid" inherits="UICheckButtonTemplate">
+				<Size>
+					<AbsDimension x="20" y="20"/>
+				</Size>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCheckButtonParty" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="45" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						SoundDeliveryDialogCheckButtonRaidText:SetText(SoundDeliveryUI_Localization.CHECKBUTTON_RAID);
+						self:GetParent().CheckButtons.Raid = self;
+					</OnLoad>
+
+					<OnEnter> WQUI_CheckBox_Tooltip_OnEnter(self,"TOOLTIP_RAID") </OnEnter>
+    			<OnLeave> WQUI_ToolTip_OnLeave() </OnLeave>
+
+					<OnClick>
+						if self:GetChecked() then
+						SD_SETTINGS.broadcast.RAID = true;
+						SD_SETTINGS.broadcast.BATTLEGROUND = true;
+						else
+						SD_SETTINGS.broadcast.RAID = false;
+						SD_SETTINGS.broadcast.BATTLEGROUND = false;
+						end
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+
+
+			<Frame name="SoundDeliveryDialogChannelDropDown" inherits="UIDropDownMenuTemplate" id="1">
+				<Size x="125" y="24"/>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" x="20" y="25"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						UIDropDownMenu_Initialize(self, WQUI.ChannelDropDown.Initialize);
+						--UIDropDownMenu_SetWidth(self, 120);
+						--UIDropDownMenu_SetButtonWidth(self, 30);
+						UIDropDownMenu_SetSelectedID(self, 2); -- GUILD
+						UIDropDownMenu_JustifyText(self, "LEFT")
+						UIDropDownMenu_SetIconImage()
+					</OnLoad>
+
+					<OnEnter> WQUI_Universal_Tooltip_OnEnter(self,"TOOLTIP_CHANNELDROPDOWN")</OnEnter>
+    			<OnLeave> WQUI_ToolTip_OnLeave() </OnLeave>
+				</Scripts>
+			</Frame>
+
+			<Frame name="SoundDeliveryDialogCategoryDropDown" inherits="UIDropDownMenuTemplate" id="2">
+				<Anchors>
+					<Anchor point="TopRight">
+						<Offset>
+							<AbsDimension x="0" y="-60"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						UIDropDownMenu_Initialize(self, WQUI.CategoryDropDown.Initialize);
+						UIDropDownMenu_SetWidth(self, 120);
+						UIDropDownMenu_SetButtonWidth(self, 24);
+						UIDropDownMenu_SetSelectedID(self, 0); -- ALL
+						UIDropDownMenu_JustifyText(self, "LEFT")
+					</OnLoad>
+					<OnShow>
+						UIDropDownMenu_SetSelectedID(self, 1); -- ALL
+						WQUI.CategoryDropDown.OnClick(self);
+					</OnShow>
+				</Scripts>
+			</Frame>
+
+			<Button name="$parentColumnText" inherits="WhoFrameColumnHeaderTemplate" text="Quote">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="18" y="-95"/></Offset> <!-- original y=-71-->
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						WhoFrameColumn_SetWidth(self, 220)
+						self:GetParent().Columns = {}
+						self:GetParent().Columns.Text = self
+					</OnLoad>
+					<OnClick>
+						local parent = self:GetParent()
+						parent:SortItems(parent.Sorters.ByMessage, parent.Sorters.ByMessageR)
+						parent:UpdateItems()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parentColumnID" inherits="WhoFrameColumnHeaderTemplate" text="ID">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentColumnText"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						WhoFrameColumn_SetWidth(self, 70);
+						self:GetParent().Columns.ID = self
+					</OnLoad>
+					<OnClick>
+						local parent = self:GetParent()
+						parent:SortItems(parent.Sorters.ByID, parent.Sorters.ByIDR)
+						parent:UpdateItems()
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button name="$parentColumnDuration" inherits="WhoFrameColumnHeaderTemplate" text="t">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentColumnID"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						WhoFrameColumn_SetWidth(self, 60);
+						self:GetParent().Columns.t = self
+					</OnLoad>
+					<OnClick>
+						local parent = self:GetParent()
+						parent:SortItems(parent.Sorters.ByDuration, parent.Sorters.ByDurationR)
+						parent:UpdateItems()
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Button name="$parentColumntag" inherits="WhoFrameColumnHeaderTemplate" text="tag">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPRIGHT" relativeTo="$parentColumnDuration"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						WhoFrameColumn_SetWidth(self, 50);
+						self:GetParent().Columns.tag = self
+					</OnLoad>
+					<OnClick>
+						local parent = self:GetParent()
+						parent:SortItems(parent.Sorters.ByTag, parent.Sorters.ByTagR)
+						parent:UpdateItems()
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<ScrollFrame name="$parentScrollFrame" inherits="FauxScrollFrameTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset><AbsDimension x="22" y="-99"/></Offset> <!-- y="-99" -->
+					</Anchor>
+					<Anchor point="BOTTOMRIGHT">
+						<Offset><AbsDimension x="-37" y="70"/></Offset>
+					</Anchor>
+				</Anchors>
+
+				<Layers>
+					<Layer level="ARTWORK">
+						<Texture file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar" >
+							<Size><AbsDimension x="31" y="256"/></Size> <!-- y="256" -->
+							<Anchors>
+								<Anchor point="TOPLEFT" relativePoint="TOPRIGHT">
+									<Offset><AbsDimension x="-2" y="5"/></Offset>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0" right="0.484375" top="0" bottom="1.0"/>
+						</Texture>
+						<Texture file="Interface\PaperDollInfoFrame\UI-Character-ScrollBar">
+							<Size><AbsDimension x="31" y="106"/></Size>
+							<Anchors>
+								<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMRIGHT">
+									<Offset><AbsDimension x="-2" y="-2"/></Offset>
+								</Anchor>
+							</Anchors>
+							<TexCoords left="0.515625" right="1.0" top="0" bottom="0.4140625"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnVerticalScroll>
+						FauxScrollFrame_OnVerticalScroll(self, offset, 16, function() end);
+						self:GetParent():UpdateItems()
+					</OnVerticalScroll>
+					<OnShow>
+						self:GetParent():UpdateItems()
+					</OnShow>
+				</Scripts>
+			</ScrollFrame>
+
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				-- merge self frame and WQUI
+				for FunctionName, Function in pairs(WQUI) do
+				self[FunctionName] = Function
+				end
+				WQUI = self
+
+				self:Initialize()
+			</OnLoad>
+			<OnShow>
+				self.CategoryDropDown.OnClick(self);
+				PlaySound("igQuestLogOpen");
+			</OnShow>
+			<OnHide>
+				PlaySound("igQuestLogClose");
+			</OnHide>
+		</Scripts>
+	</Frame>
+</Ui>

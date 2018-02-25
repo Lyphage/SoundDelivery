@@ -1,0 +1,21 @@
+------------------------------------v.0.1.0 ---------------------------------------------
+02-24-2018	Lyphage
+	* Reworked to work for Patch 7.3.x
+	* Reworked Music system:
+		* Files longer than 10 seconds are considered music:
+			* You can only play music every 10 seconds, playing new music will stop the old music.
+			* You can play / spam files shorter than 10 seconds even while music is playing.
+			* A Stop Music Button has been added to stop any music.
+			* A new commando has been added /wqs to stop any music.
+	* GUI Changes:
+		* Overhauled the GUI design.
+		* Reworked the Tag system, you can add a single "tag = Music" to sound files to mark them as such.
+		* The GUI can be dragged via left mouse click and stays at that position.
+		* Sorting functions have been added for the new information in both directions.
+		* Saves the last selected sending channel over sessions
+		* Added Tooltips for more clarification for most UI elements.
+		* Added a Button to open the main GUI:
+			* The Button can be dragged via right mouse click and stays at that position.
+			* A new commando has been added /wqqb to hide or show the button.
+	* Localization:
+		* Added english locales for every non-german
